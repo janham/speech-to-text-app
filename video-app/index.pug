@@ -1,0 +1,56 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title Video chat
+        link(rel='stylesheet' href='./css/reset.css')
+        link(rel='stylesheet' href='./css/default.css')
+        link(rel='stylesheet' href='./css/style.css')
+        script(src='//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+        script(src='//cdn.webrtc.ecl.ntt.com/skyway-latest.js')
+        script(src='./js/script.js')
+    body
+        .pure-g
+            // Video area
+            #video-container.pure-u-2-3
+                #their-videos
+                video#my-video(muted='true' autoplay='' playsinline='')
+            // Steps
+            .pure-u-1-3
+                h2 Video Chat
+                .select
+                    label(for='audioSource') Audio input source: 
+                    select#audioSource
+                .select
+                    label(for='videoSource') Video source: 
+                    select#videoSource
+                // Get local audio/video stream
+                #step1
+                    p
+                        | Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.
+                    #step1-error
+                        p
+                            | Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.
+                        a#step1-retry.pure-button.pure-button-error(href='#') Try again
+                p
+                    | Your id: 
+                    span#my-id ...
+                // Make calls to others
+                #step2
+                    h3 Make a call
+                    form#make-call.pure-form
+                        input#join-room(type='text' placeholder='Join room...')
+                        button.pure-button.pure-button-success(type='submit') Join
+                    p
+                        strong Warning:
+                        |  You may connect with people you don't know if you both use the same room name.
+                    p
+                        strong 注意：
+                        | 同じルーム名を使用した場合、知らない人と接続する可能性があります。
+                // Call in progress
+                #step3
+                    p
+                        | Currently in room 
+                        span#room-id ...
+                    p
+                        a#end-call.pure-button.pure-button-error(href='#') End call
