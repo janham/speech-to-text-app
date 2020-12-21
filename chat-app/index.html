@@ -4,8 +4,19 @@
         <meta charset="UTF-8">
         <title>Chatapp</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="./css/style.css">
     </head>
     <body>
+        <div> 
+            <div>
+                <input type="text" id="username">
+            </div>
+            <div>
+                <textarea id="text" rows="5"></textarea>
+                <button id="send">send</button>
+            </div>
+            <div id="output"></div>
+        </div>
 
         <!-- The core Firebase JS SDK is always required and must be listed first -->
         <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
