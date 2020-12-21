@@ -1,1 +1,7 @@
 .DS_Store
+# video-app API key
+key.json
+# chat-app firebase key
+firebase.json
+# secret files
+z-secret
