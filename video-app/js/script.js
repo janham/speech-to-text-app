@@ -2,46 +2,46 @@
 $(function() {
     // Peer object
     const peer = new Peer({
-    key:   window.__SKYWAY_KEY__,
-    debug: 3,
+        key:   window.__SKYWAY_KEY__,
+        debug: 3,
     });
 
     let localStream;
     let room;
     peer.on('open', () => {
     $('#my-id').text(peer.id);
-    // Get things started
-    step1();
+        // Get things started
+        step1();
     });
 
     peer.on('error', err => {
-    alert(err.message);
-    // Return to step 2 if error occurs
-    step2();
+        alert(err.message);
+        // Return to step 2 if error occurs
+        step2();
     });
 
     $('#make-call').on('submit', e => {
-    e.preventDefault();
-    // Initiate a call!
-    const roomName = $('#join-room').val();
-    if (!roomName) {
-        return;
-    }
-    room = peer.joinRoom('mesh_video_' + roomName, {stream: localStream});
+        e.preventDefault();
+        // Initiate a call!
+        const roomName = $('#join-room').val();
+        if (!roomName) {
+            return;
+        }
+        room = peer.joinRoom('mesh_video_' + roomName, {stream: localStream});
 
-    $('#room-id').text(roomName);
-    step3(room);
+        $('#room-id').text(roomName);
+        step3(room);
     });
 
     $('#end-call').on('click', () => {
-    room.close();
-    step2();
+        room.close();
+        step2();
     });
 
     // Retry if getUserMedia fails
     $('#step1-retry').on('click', () => {
-    $('#step1-error').hide();
-    step1();
+        $('#step1-error').hide();
+        step1();
     });
 
     // set up audio and video input selectors
@@ -60,23 +60,23 @@ $(function() {
         });
 
         for (let i = 0; i !== deviceInfos.length; ++i) {
-        const deviceInfo = deviceInfos[i];
-        const option = $('<option>').val(deviceInfo.deviceId);
+            const deviceInfo = deviceInfos[i];
+            const option = $('<option>').val(deviceInfo.deviceId);
 
-        if (deviceInfo.kind === 'audioinput') {
-            option.text(deviceInfo.label ||
-            'Microphone ' + (audioSelect.children().length + 1));
-            audioSelect.append(option);
-        } else if (deviceInfo.kind === 'videoinput') {
-            option.text(deviceInfo.label ||
-            'Camera ' + (videoSelect.children().length + 1));
-            videoSelect.append(option);
-        }
+            if (deviceInfo.kind === 'audioinput') {
+                option.text(deviceInfo.label ||
+                'Microphone ' + (audioSelect.children().length + 1));
+                audioSelect.append(option);
+            } else if (deviceInfo.kind === 'videoinput') {
+                option.text(deviceInfo.label ||
+                'Camera ' + (videoSelect.children().length + 1));
+                videoSelect.append(option);
+            }
         }
 
         selectors.forEach((select, selectorIndex) => {
         if (Array.prototype.slice.call(select.children()).some(n => {
-            return n.value === values[selectorIndex];
+                return n.value === values[selectorIndex];
             })) {
             select.val(values[selectorIndex]);
         }
@@ -99,8 +99,8 @@ $(function() {
         localStream = stream;
 
         if (room) {
-        room.replaceStream(stream);
-        return;
+            room.replaceStream(stream);
+            return;
         }
 
         step2();
@@ -111,39 +111,39 @@ $(function() {
     }
 
     function step2() {
-    $('#their-videos').empty();
-    $('#step1, #step3').hide();
-    $('#step2').show();
-    $('#join-room').focus();
+        $('#their-videos').empty();
+        $('#step1, #step3').hide();
+        $('#step2').show();
+        $('#join-room').focus();
     }
 
     function step3(room) {
     // Wait for stream on the call, then set peer video display
-    room.on('stream', stream => {
-        const peerId = stream.peerId;
-        const id = 'video_' + peerId + '_' + stream.id.replace('{', '').replace('}', '');
+        room.on('stream', stream => {
+            const peerId = stream.peerId;
+            const id = 'video_' + peerId + '_' + stream.id.replace('{', '').replace('}', '');
 
-        $('#their-videos').append($(
-        '<div class="video_' + peerId +'" id="' + id + '">' +
-            '<label>' + stream.peerId + ':' + stream.id + '</label>' +
-            '<video class="remoteVideos" autoplay playsinline>' +
-        '</div>'));
-        const el = $('#' + id).find('video').get(0);
-        el.srcObject = stream;
-        el.play();
-    });
+            $('#their-videos').append($(
+            '<div class="video_' + peerId +'" id="' + id + '">' +
+                '<label>' + stream.peerId + ':' + stream.id + '</label>' +
+                '<video class="remoteVideos" autoplay playsinline>' +
+            '</div>'));
+            const el = $('#' + id).find('video').get(0);
+            el.srcObject = stream;
+            el.play();
+        });
 
-    room.on('removeStream', function(stream) {
-        const peerId = stream.peerId;
-        $('#video_' + peerId + '_' + stream.id.replace('{', '').replace('}', '')).remove();
-    });
+        room.on('removeStream', function(stream) {
+            const peerId = stream.peerId;
+            $('#video_' + peerId + '_' + stream.id.replace('{', '').replace('}', '')).remove();
+        });
 
-    // UI stuff
-    room.on('close', step2);
-    room.on('peerLeave', peerId => {
-        $('.video_' + peerId).remove();
-    });
-    $('#step1, #step2').hide();
-    $('#step3').show();
+        // UI stuff
+        room.on('close', step2);
+        room.on('peerLeave', peerId => {
+            $('.video_' + peerId).remove();
+        });
+        $('#step1, #step2').hide();
+        $('#step3').show();
     }
 });
