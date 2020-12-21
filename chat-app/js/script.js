@@ -16,3 +16,17 @@ $.getJSON('firebase.json', (data) => {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
+
+// firebaseへの処理
+const newPostRef = firebase.database();
+let room = "room1";
+
+newPostRef.ref(room).push({
+
+});
+
+newPostRef.ref(room).on("child_added", function(data){
+    const v = data.val();
+    const k = data.key;
+
+});
