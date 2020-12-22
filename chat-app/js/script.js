@@ -26,7 +26,8 @@ $.getJSON('firebase.json', (data) => {
     send.addEventListener('click', function() {
         newPostRef.ref(room).push({
             username: username.value,
-            text: text.value
+            text: text.value,
+            time: time()
         });
         text.value = "";
     });
@@ -36,9 +37,30 @@ $.getJSON('firebase.json', (data) => {
         const k = data.key;
         let str = '';
 
-        str += '<div class="name">' + v.username + '</div>';
-        str += '<div class="text">' + v.text + '</div>';
+        str += '<div id="'+ k +'" class="msg_main">'
+        str += '<div class="msg_left">'; 
+        // str += '<div class=""><img src="img/icon_person.png" alt="" class="icon '+ v.username +'" width="30"></div>';
+        str += '<div class="msg">';
+        str += '<div class="name">'+ v.username +'</div>';
+        str += '<div class="text">'+ v.text +'</div>';
+        str += '</div>';
+        str += '</div>';
+        str += '<div class="msg_right">';
+        str += '<div class="time">'+ v.time +'</div>';
+        str +='</div>';
+        str +='</div>';
 
         output.innerHTML += str;
+        
     });
 });
+
+function time() {
+    var date = new Date();
+    var hh = ("0"+date.getHours()).slice(-2);
+    var min = ("0"+date.getMinutes()).slice(-2);
+    var sec = ("0"+date.getSeconds()).slice(-2);
+
+    var time = hh + ":" + min + ":" + sec;
+    return time;
+}
