@@ -53,6 +53,20 @@ $.getJSON('firebase.json', (data) => {
         output.innerHTML += str;
         
     });
+
+    speech.onresult = function(e) {
+        speech.stop();
+        if(e.results[0].isFinal){
+            var autoText = e.results[0][0].transcript
+            console.log(e);
+            console.log(autoText);
+            newPostRef.ref(room).push({
+                username: username.value,
+                text: autoText,
+                time: time()
+            })
+        }
+    }
 });
 
 function time() {
@@ -63,4 +77,20 @@ function time() {
 
     var time = hh + ":" + min + ":" + sec;
     return time;
+}
+
+// 音声認識処理
+const speech = new webkitSpeechRecognition();
+speech.lang = 'ja-JP';
+
+const btn = document.getElementById('btn');
+const content = document.getElementById('content');
+
+btn.addEventListener('click', function() {
+    speech.start();
+});
+
+
+speech.onend = () => {
+    speech.start();
 }
