@@ -1,3 +1,6 @@
+let newPostRef = '';
+let room = 'room1';
+
 $.getJSON('firebase.json', (data) => {
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     let firebaseConfig = {
@@ -15,35 +18,12 @@ $.getJSON('firebase.json', (data) => {
     firebase.analytics();
 
     // firebaseへの処理
-    const newPostRef = firebase.database();
-    let room = 'room1';
+    newPostRef = firebase.database();
 
     const username = document.getElementById('username');
     const output = document.getElementById('output');
 
-    function text() {
-        newPostRef.ref(room).on('child_added', function(data){
-            const v = data.val();
-            const k = data.key;
-            let str = '';
     
-            str += '<div id="' + k + '" class="msg_main">'
-            str += '<div class="msg_left">';
-            // str += '<div class=""><img src="img/icon_person.png" alt="" class="icon ' + v.username + '" width="30"></div>';
-            str += '<div class="msg">';
-            str += '<div class="name">' + v.username + '</div>';
-            str += '<div class="text">' + v.text + '</div>';
-            str += '</div>';
-            str += '</div>';
-            str += '<div class="msg_right">';
-            str += '<div class="time">' + v.time + '</div>';
-            str += '</div>';
-            str += '</div>';
-    
-            output.innerHTML += str;
-            $("#output").scrollTop( $("#output")[0].scrollHeight );
-        });
-    }
 
     function time() {
         let date = new Date();
@@ -102,7 +82,29 @@ $.getJSON('firebase.json', (data) => {
     }
 });
 
+function text() {
+    newPostRef.ref(room).on('child_added', function(data){
+        const v = data.val();
+        const k = data.key;
+        let str = '';
 
+        str += '<div id="' + k + '" class="msg_main">'
+        str += '<div class="msg_left">';
+        // str += '<div class=""><img src="img/icon_person.png" alt="" class="icon ' + v.username + '" width="30"></div>';
+        str += '<div class="msg">';
+        str += '<div class="name">' + v.username + '</div>';
+        str += '<div class="text">' + v.text + '</div>';
+        str += '</div>';
+        str += '</div>';
+        str += '<div class="msg_right">';
+        str += '<div class="time">' + v.time + '</div>';
+        str += '</div>';
+        str += '</div>';
+
+        output.innerHTML += str;
+        $("#output").scrollTop( $("#output")[0].scrollHeight );
+    });
+}
 
 
 
