@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 $(function() {
     $.getJSON('key.json', (data) => {
-        // let apiKey = data["videoApiKey"];
+        let apiKey = data["videoApiKey"];
         apiSystem(apiKey);
     });
 

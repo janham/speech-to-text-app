@@ -19,7 +19,7 @@
       </div>
       <!-- Steps-->
       <div class="pure-u-1-3">
-        <h2>Video Chat</h2>
+        <h2>Video Chat API Sample</h2>
         <div class="select">
           <label for="audioSource">Audio input source: </label>
           <select id="audioSource"></select>
@@ -30,25 +30,24 @@
         </div>
         <!-- Get local audio/video stream-->
         <div id="step1">
-          <p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>
+          <p>Webカメラの使用を許可してください。</p>
           <div id="step1-error">
             <p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p><a class="pure-button pure-button-error" id="step1-retry" href="#">Try again</a>
           </div>
         </div>
-        <p>Your id: <span id="my-id">...</span></p>
+        <p>あなたのID: <span id="my-id">...</span></p>
         <!-- Make calls to others-->
         <div id="step2">
-          <h3>Make a call</h3>
+          <h3>ルームの作成または入室</h3>
           <form class="pure-form" id="make-call">
-            <input id="join-room" type="text" placeholder="Join room...">
-            <button class="pure-button pure-button-success" type="submit">Join</button>
+            <input id="join-room" type="text" placeholder="任意のルームID">
+            <button class="pure-button pure-button-success" type="submit">入室！</button>
           </form>
-          <p><strong>Warning:</strong> You may connect with people you don't know if you both use the same room name.</p>
           <p><strong>注意：</strong>同じルーム名を使用した場合、知らない人と接続する可能性があります。</p>
         </div>
         <!-- Call in progress-->
         <div id="step3">
-          <p>Currently in room <span id="room-id">...</span></p>
+          <p>現在のルーム名：<span id="room-id">...</span></p>
           <p><a class="pure-button pure-button-error" id="end-call" href="#">End call</a></p>
         </div>
       </div>
